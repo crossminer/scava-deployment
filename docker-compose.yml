@@ -39,7 +39,7 @@ services:
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
-        build: ./met-platform
+        build: ./metric-platform
         entrypoint: ./eclipse -apiServer -master -ossmeterConfig prop.properties
         depends_on:
             - oss-db
@@ -93,8 +93,8 @@ services:
 
 
     kb-db: # data storage service for the Knowledge Base services
-        build: ./KB-db #restores a dump of the of te
-    #    image: mongo:3.4 #current setup uses mongodb
+        build: ./KB-db #restores a dump of of the Knowledge Base
+    #    image: mongo:3.4 #use a clean database
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
