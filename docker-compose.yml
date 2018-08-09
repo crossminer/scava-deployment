@@ -32,6 +32,8 @@ services:
             - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
         networks:
             - default
+        expose:  #exposes oss-app port
+            - 9000
 
         # maps the port 9000 in the localhost to port 9000 of container  "HOST:CONTAINER"
         ports:
