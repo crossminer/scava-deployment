@@ -10,10 +10,17 @@
 
 FROM mongo:3.4
 
-# Get download dump archive
-ADD http://ci3.castalia.camp/dl/M18/CROSSMINER.20180808.gz /home
+# Get download dump archives
+ADD http://ci3.castalia.camp/dl/M18/scava.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M18/users.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M18/mqtt-client.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M18/mqttclient.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M18/json-simple.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M18/jsonsimple.20180808.gz /home
 
 WORKDIR home
+
+
 
 
 # Copy copy script used to load dabase dump

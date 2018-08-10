@@ -22,7 +22,12 @@ done
 
 # Restore from dump
 
-mongorestore --drop --gzip --archive=CROSSMINER.20180808.gz
+mongorestore --drop --gzip --archive=scava.20180808.gz &&
+mongorestore --drop --gzip --archive=users.20180808.gz &&
+mongorestore --drop --gzip --archive=mqtt-client.20180808.gz &&
+mongorestore --drop --gzip --archive=mqttclient.20180808.gz &&
+mongorestore --drop --gzip --archive=json-simple.20180808.gz &&
+mongorestore --drop --gzip --archive=jsonsimple.20180808.gz &&
 
 # Keep container running
 tail -f /dev/null

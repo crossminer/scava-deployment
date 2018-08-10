@@ -22,7 +22,7 @@ LABEL description="Image with the OSSMETER platform"
 WORKDIR ossmeter
 
 # Get the binaries and uncompress them in the container
-RUN wget http://ci5.castalia.camp:8080/job/scava-metricplatform/76/artifact/metric-platform/releng/org.eclipse.scava.product/target/products/scava-product-linux.gtk.x86_64.zip \
+RUN wget http://ci5.castalia.camp:8080/job/scava-metricplatform/lastSuccessfulBuild/artifact/metric-platform/releng/org.eclipse.scava.product/target/products/scava-product-linux.gtk.x86_64.zip \
 && unzip scava-product-linux.gtk.x86_64.zip \
 && rm scava-product-linux.gtk.x86_64.zip
 
