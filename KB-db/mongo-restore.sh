@@ -22,7 +22,7 @@ done
 
 # Restore from dump
 
-mongorestore --drop --db CROSSMINER /home/CROSSMINER
+mongorestore --drop --gzip --archive=CROSSMINER.20180808.gz
 
 # Keep container running
 tail -f /dev/null
