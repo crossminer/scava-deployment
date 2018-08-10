@@ -39,7 +39,7 @@ services:
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
-        build: ./met-platform
+        build: ./metric-platform
         entrypoint: ./eclipse -apiServer -master -ossmeterConfig prop.properties
         depends_on:
             - oss-db
@@ -67,15 +67,15 @@ services:
  #
  # Each slave instance consumes a great amount of processing and memory resources.
  # Deployment of multiple instances may harm the system performance
-
     oss-db: # data storage service
-        image: mongo:3.4 #current setup uses mongodb
+        build: ./oss-db #restores a dump of of the Knowledge Base
+    #    image: mongo:3.4 #current setup uses mongodb
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
             - 27017
-        volumes: #creates volume on container
-            - ~/oss-data:/data/db
+    #    volumes: #creates volume on container
+    #        - ~/oss-data:/data/db
  # Uncomment the port map below to give access to external mongo database visualizers
         ports:
             - "27017:27017"
@@ -93,8 +93,8 @@ services:
 
 
     kb-db: # data storage service for the Knowledge Base services
-        build: ./KB-db #restores a dump of the of te
-    #    image: mongo:3.4 #current setup uses mongodb
+        build: ./KB-db #restores a dump of of the Knowledge Base
+    #    image: mongo:3.4 #use a clean database
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
