@@ -15,9 +15,6 @@ ADD http://ci3.castalia.camp/dl/M18/CROSSMINER.20180808.gz /home
 
 WORKDIR home
 
-# Uncompress the dump
-RUN tar xzf KB-DB-dump.tar.gz -C /home \
-&& rm KB-DB-dump.tar.gz
 
 # Copy copy script used to load dabase dump
 COPY mongo-restore.sh /home/mongo-restore.sh
