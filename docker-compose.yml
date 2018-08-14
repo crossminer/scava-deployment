@@ -31,6 +31,8 @@ services:
             - api-server
         networks:
             - default
+        expose:
+            - 80
         ports:
             - "80:80"
     oss-web: #deploys the OSSMETER Web App
@@ -62,15 +64,15 @@ services:
           - "8182:8182"
 
 
-    oss-slave: # Service containing OSSMETER slaves instances
-        build: ./metric-platform
-        entrypoint: ./eclipse -slave -ossmeterConfig prop.properties
-#        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "100", "--", "./eclipse", "-slave", "-ossmeterConfig", "prop.properties"]
-        depends_on:
-            - oss-db
-            - oss-app
-        networks:
-            - default
+#     oss-slave: # Service containing OSSMETER slaves instances
+#         build: ./metric-platform
+#         entrypoint: ./eclipse -slave -ossmeterConfig prop.properties
+# #        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "100", "--", "./eclipse", "-slave", "-ossmeterConfig", "prop.properties"]
+#         depends_on:
+#             - oss-db
+#             - oss-app
+#         networks:
+#             - default
  # NOTE: To scale up the number of slaves in OSSMETER application using docker composer use:
  #                  docker-compose scale oss-slave=X
  #       where 'X' corresponds to the total number of slaves wanted in the application
@@ -128,6 +130,8 @@ services:
 
         expose:
             - 8086
+        ports:
+            - "8086:8086"
 
 
     auth-server: # Server responsible for the authentication of the
@@ -141,3 +145,6 @@ services:
 
         expose:
             - 8085
+
+        ports:
+            - "8085:8085"

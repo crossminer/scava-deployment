@@ -5,7 +5,7 @@ LABEL description="Image with the Authentication Server"
 
 # Downloads last jar build  by the continuous integration server
 RUN wget http://ci3.castalia.camp/dl/scava-auth-service-1.0.0.jar
-# COPY scava-auth-service-1.0.0.jar scava-auth-service-1.0.0.jar
+
 COPY application.properties application.properties
 
 # Run jar
