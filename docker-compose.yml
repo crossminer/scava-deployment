@@ -25,14 +25,14 @@
 
 version: "3"
 services:
-    # admin-webapp:
-    #     build: ./web-admin
-    #     depends_on:
-    #         - api-server
-    #     networks:
-    #         - default
-    #     ports:
-    #         - "80:80"
+    admin-webapp:
+        build: ./web-admin
+        depends_on:
+            - api-server
+        networks:
+            - default
+        ports:
+            - "80:80"
     oss-web: #deploys the OSSMETER Web App
         build: ./oss-web  # directory to the corresponding Dockerfile
         depends_on:
