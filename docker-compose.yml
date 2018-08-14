@@ -25,6 +25,14 @@
 
 version: "3"
 services:
+    # admin-webapp:
+    #     build: ./web-admin
+    #     depends_on:
+    #         - api-server
+    #     networks:
+    #         - default
+    #     ports:
+    #         - "80:80"
     oss-web: #deploys the OSSMETER Web App
         build: ./oss-web  # directory to the corresponding Dockerfile
         depends_on:
@@ -106,3 +114,30 @@ services:
  # Uncomment the port map below to give access to external mongo database visualizers
         ports:
             - "27018:27017"
+
+
+    api-server: # API gateway to route the access of REST APIs
+        build: ./api-gw
+
+        depends_on:
+            - oss-app
+            - auth-server
+
+        networks:
+            - default
+
+        expose:
+            - 8086
+
+
+    auth-server: # Server responsible for the authentication of the
+        build: ./auth
+
+        depends_on:
+            - oss-db
+
+        networks:
+            - default
+
+        expose:
+            - 8085
