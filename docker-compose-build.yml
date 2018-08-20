@@ -26,7 +26,7 @@
 version: "3"
 services:
     oss-web: #deploys the OSSMETER Web App
-        image: crossminer/oss-web:dev
+        build: ./oss-web  # directory to the corresponding Dockerfile
         depends_on:
             - oss-app
             - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
@@ -41,7 +41,7 @@ services:
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
-        image: crossminer/metric-platform:dev
+        build: ./metric-platform
         entrypoint: ./eclipse -apiServer -master -ossmeterConfig prop.properties
         depends_on:
             - oss-db
@@ -55,7 +55,7 @@ services:
 
 
     oss-slave: # Service containing OSSMETER slaves instances
-        image: crossminer/metric-platform:dev
+        build: ./metric-platform
         entrypoint: ./eclipse -slave -ossmeterConfig prop.properties
 #        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "100", "--", "./eclipse", "-slave", "-ossmeterConfig", "prop.properties"]
         depends_on:
@@ -70,7 +70,7 @@ services:
  # Each slave instance consumes a great amount of processing and memory resources.
  # Deployment of multiple instances may harm the system performance
     oss-db: # data storage service
-        image: crossminer/oss-db:dev #restores a dump of of the Knowledge Base
+        build: ./oss-db #restores a dump of of the Knowledge Base
     #    image: mongo:3.4 #current setup uses mongodb
         networks:
             - default
@@ -78,12 +78,12 @@ services:
             - 27017
     #    volumes: #creates volume on container
     #        - ~/oss-data:/data/db
-        # mapping for external mongo database visualizers
+ # Uncomment the port map below to give access to external mongo database visualizers
         ports:
             - "27017:27017"
 
     kb-service: #deploys the Knowledge Base services
-        image: crossminer/knowledge-base:dev
+        build: ./KB  # directory to the corresponding Dockerfile
         depends_on:
             - kb-db #only requests for kb-db service to be launched before this service. DB may still not be ready when this service starts
             - oss-app
@@ -95,7 +95,7 @@ services:
 
 
     kb-db: # data storage service for the Knowledge Base services
-        image: crossminer/knowledge-base-db:dev #restores a dump of of the Knowledge Base
+        build: ./KB-db #restores a dump of of the Knowledge Base
     #    image: mongo:3.4 #use a clean database
         networks:
             - default
@@ -103,6 +103,6 @@ services:
             - 27017
 #        volumes: #creates volume on container
 #            - ~/kb-data:/data/kb-db
-        # mapping for external mongo database visualizers
+ # Uncomment the port map below to give access to external mongo database visualizers
         ports:
             - "27018:27017"
