@@ -1,5 +1,5 @@
 
-FROM nginx:alpine
+FROM nginx:1.14-alpine
 LABEL description="Image with CROSSMINER Adminstration Web Interface"
 
 WORKDIR /usr/share/nginx/html
