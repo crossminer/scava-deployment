@@ -20,4 +20,4 @@ WORKDIR home
 COPY mongo-restore.sh /home/mongo-restore.sh
 RUN chmod 777 /home/mongo-restore.sh
 
-CMD ["/bin/sh", "/home/mongo-restore.sh"]
+CMD ["/bin/bash", "/home/mongo-restore.sh"]
