@@ -8,7 +8,7 @@ chmod 777 /var/log/mongodb.log
 # Start mongodb with logging
 # --logpath    Without this mongod will output all log information to the standard output.
 # --logappend  Ensure mongod appends new entries to the end of the logfile. We create it first so that the below tail always finds something
-/entrypoint.sh mongod --logpath /var/log/mongodb.log --logappend &
+/entrypoint.sh mongod --logpath /var/log/mongodb.log --logappend --port 8000 &
 
 # Wait until mongo logs that it's ready (or timeout after 60s)
 COUNTER=0
@@ -22,12 +22,16 @@ done
 
 # Restore from dump
 
-mongorestore --drop --gzip --archive=scava.20180808.gz &&
-mongorestore --drop --gzip --archive=users.20180808.gz &&
-mongorestore --drop --gzip --archive=mqtt-client.20180808.gz &&
-mongorestore --drop --gzip --archive=mqttclient.20180808.gz &&
-mongorestore --drop --gzip --archive=json-simple.20180808.gz &&
-mongorestore --drop --gzip --archive=jsonsimple.20180808.gz &&
+mongorestore --port 8000 --drop --gzip --archive=scava.20180808.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=users.20180808.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=mqtt-client.20180808.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=mqttclient.20180808.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=json-simple.20180808.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=jsonsimple.20180808.gz &&
+
+/entrypoint.sh mongod --port 8000 --shutdown
+
+/entrypoint.sh mongod &
 
 # Keep container running
 tail -f /dev/null
