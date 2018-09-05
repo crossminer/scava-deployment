@@ -27,6 +27,7 @@ RUN wget http://ci5.castalia.camp:8080/job/scava-metricplatform/lastSuccessfulBu
 && rm scava-product-linux.gtk.x86_64.zip
 
 COPY prop.properties /ossmeter/prop.properties
+COPY wait-for-it.sh /ossmeter/wait-for-it.sh
 
 # By default, starts the platform to run the master, a slave, and the web API
 ENTRYPOINT exec ./eclipse -apiServer -master -slave -ossmeterConfig prop.properties
