@@ -42,6 +42,7 @@ RUN wget http://ci5.castalia.camp:8080/job/scava-metricplatform/lastSuccessfulBu
 && rm scava-product-linux.gtk.x86_64.zip
 
 COPY prop.properties /ossmeter/prop.properties
+COPY wait-for-it.sh /ossmeter/wait-for-it.sh
 
 WORKDIR plugins
 
