@@ -36,14 +36,10 @@ RUN  unzip master.zip \
 
 WORKDIR /ossmeter
 
-RUN wget http://ci3.castalia.camp/dl/scava-product-linux.gtk.x86_64-smells.zip \
-&& unzip scava-product-linux.gtk.x86_64-smells.zip \
-&& rm scava-product-linux.gtk.x86_64-smells.zip
-
 # Get the binaries and uncompress them in the container
-# RUN wget http://ci5.castalia.camp:8080/job/scava-metricplatform/lastSuccessfulBuild/artifact/metric-platform/releng/org.eclipse.scava.product/target/products/scava-product-linux.gtk.x86_64.zip \
-# && unzip scava-product-linux.gtk.x86_64.zip \
-# && rm scava-product-linux.gtk.x86_64.zip
+RUN wget http://ci5.castalia.camp:8080/job/scava-metricplatform/lastSuccessfulBuild/artifact/metric-platform/releng/org.eclipse.scava.product/target/products/scava-product-linux.gtk.x86_64.zip \
+&& unzip scava-product-linux.gtk.x86_64.zip \
+&& rm scava-product-linux.gtk.x86_64.zip
 
 COPY prop.properties /ossmeter/prop.properties
 
@@ -56,7 +52,7 @@ RUN find . -type f -name 'org.eclipse.scava.metricprovider.trans.configuration.*
 
 RUN rm -rf META-INF
 
-WORKDIR /ossmeter
+WORKDIR ..
 
 # By default, starts the platform to run the master, a slave, and the web API
 ENTRYPOINT exec ./eclipse -apiServer -master -slave -ossmeterConfig prop.properties
