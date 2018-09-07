@@ -27,7 +27,8 @@ RUN pip3 install --upgrade pip \
 setuptools \
 wheel
 
-RUN pip3 install grimoire-elk
+RUN pip3 install grimoire-elk \
+kidash
 
 # Downloads perceval-scava and scava metrics folders from Github in 'dev' branch
 RUN svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/perceval-scava \
