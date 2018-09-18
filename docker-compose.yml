@@ -138,3 +138,11 @@ services:
             - elasticsearch
         networks:
             - default
+
+    prosoul:
+        image: acsdocker/prosoul
+        ports:
+         - "8000:8000"
+        depends_on:
+         - kibiter
+         - elasticsearch
