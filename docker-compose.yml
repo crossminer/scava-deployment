@@ -132,7 +132,7 @@ services:
 
     dashb-importer:
         build: ./dashboard
-        entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--", "./importer.sh"]
+        entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--", "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--", "./importer.sh"]
         depends_on:
             - oss-app
             - elasticsearch
