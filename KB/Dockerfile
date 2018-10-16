@@ -7,7 +7,7 @@ LABEL description="Image with the Knowledge base image"
 COPY application.properties application.properties
 
 # Downloads last jar build  by the continuous integration server
-RUN wget http://ci5.castalia.camp:8080/job/scava-knowledgebase/lastSuccessfulBuild/artifact/knowledge-base/org.eclipse.scava.knowledgebase/target/scava.knoledgebase.jar
+RUN wget http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/dev/lastSuccessfulBuild/artifact/knowledge-base/org.eclipse.scava.knowledgebase/target/scava.knoledgebase.jar
 
 # Update the jar file with the Docker specific configurions
 RUN jar -uf scava.knoledgebase.jar application.properties
