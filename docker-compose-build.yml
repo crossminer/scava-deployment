@@ -35,19 +35,19 @@ services:
             - 80
         ports:
             - "80:80"
-    oss-web: #deploys the OSSMETER Web App
-        build: ./oss-web  # directory to the corresponding Dockerfile
-        depends_on:
-            - oss-app
-            - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
-        networks:
-            - default
-        expose:  #exposes oss-app port
-            - 9000
-
-        # maps the port 9000 in the localhost to port 9000 of container  "HOST:CONTAINER"
-        ports:
-            - "9000:9000"
+    # oss-web: #deploys the OSSMETER Web App
+    #     build: ./oss-web  # directory to the corresponding Dockerfile
+    #     depends_on:
+    #         - oss-app
+    #         - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
+    #     networks:
+    #         - default
+    #     expose:  #exposes oss-app port
+    #         - 9000
+    #
+    #     # maps the port 9000 in the localhost to port 9000 of container  "HOST:CONTAINER"
+    #     ports:
+    #         - "9000:9000"
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
