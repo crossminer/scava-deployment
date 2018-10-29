@@ -11,7 +11,7 @@
 FROM mongo:3.4
 
 # Get download dump archive
-ADD http://ci3.castalia.camp/dl/M18/CROSSMINER.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M18/CROSSMINER.20180906.gz /home 
 
 WORKDIR home
 
@@ -20,4 +20,4 @@ WORKDIR home
 COPY mongo-restore.sh /home/mongo-restore.sh
 RUN chmod 777 /home/mongo-restore.sh
 
-CMD ["/bin/sh", "/home/mongo-restore.sh"]
+CMD ["/bin/bash", "/home/mongo-restore.sh"]
