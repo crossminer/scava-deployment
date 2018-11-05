@@ -25,24 +25,34 @@
 
 version: "3"
 services:
-    oss-web: #deploys the OSSMETER Web App
-        build: ./oss-web  # directory to the corresponding Dockerfile
+    admin-webapp:
+        build: ./web-admin
         depends_on:
-            - oss-app
-            - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
+            - api-server
         networks:
             - default
-        expose:  #exposes oss-app port
-            - 9000
-
-        # maps the port 9000 in the localhost to port 9000 of container  "HOST:CONTAINER"
+        expose:
+            - 80
         ports:
-            - "9000:9000"
+            - "80:80"
+    # oss-web: #deploys the OSSMETER Web App
+    #     build: ./oss-web  # directory to the corresponding Dockerfile
+    #     depends_on:
+    #         - oss-app
+    #         - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
+    #     networks:
+    #         - default
+    #     expose:  #exposes oss-app port
+    #         - 9000
+    #
+    #     # maps the port 9000 in the localhost to port 9000 of container  "HOST:CONTAINER"
+    #     ports:
+    #         - "9000:9000"
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
         build: ./metric-platform
-        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-apiServer", "-master", "-ossmeterConfig", "prop.properties"]
+        entrypoint: ./eclipse -master -worker w1 -apiServer -ossmeterConfig prop.properties
         depends_on:
             - oss-db
         networks:
@@ -54,14 +64,15 @@ services:
           - "8182:8182"
 
 
-    oss-slave: # Service containing OSSMETER slaves instances
-        build: ./metric-platform
-        entrypoint: ["./wait-for-it.sh", "oss-db:27017","-t","0", "--", "./eclipse", "-slave", "-ossmeterConfig", "prop.properties"]
-        depends_on:
-            - oss-db
-            - oss-app
-        networks:
-            - default
+#     oss-slave: # Service containing OSSMETER slaves instances
+#         build: ./metric-platform
+#         entrypoint: ./eclipse -worker w1  -ossmeterConfig prop.properties
+# # #        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "100", "--", "./eclipse", "-slave", "-ossmeterConfig", "prop.properties"]
+#         depends_on:
+#          - oss-db
+#          - oss-app
+#         networks:
+#          - default
  # NOTE: To scale up the number of slaves in OSSMETER application using docker composer use:
  #                  docker-compose scale oss-slave=X
  #       where 'X' corresponds to the total number of slaves wanted in the application
@@ -69,8 +80,8 @@ services:
  # Each slave instance consumes a great amount of processing and memory resources.
  # Deployment of multiple instances may harm the system performance
     oss-db: # data storage service
-        build: ./oss-db #restores a dump
-    #    image: mongo:3.4 #current setup uses mongodb
+    #    build: ./oss-db #restores a dump of of the Knowledge Base
+        image: mongo:3.4 #current setup uses mongodb
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
@@ -106,44 +117,34 @@ services:
         ports:
             - "27018:27017"
 
-    elasticsearch:
-        image: acsdocker/elasticsearch:6.3.1-secured
-        command: /elasticsearch/bin/elasticsearch -E network.bind_host=0.0.0.0
-        networks:
-            - default
-        expose:
-            - 9200
-        ports:
-          - "9200:9200"
-        environment:
-          - ES_JAVA_OPTS=-Xms2g -Xmx2g
-          - ES_TMPDIR=/tmp
 
-    kibiter:
-      image: acsdocker/grimoirelab-kibiter:crossminer-6.3.1
-      networks:
-          - default
-      depends_on:
-          - elasticsearch
-      ports:
-       - "5601:5601"
-      environment:
-      - ELASTICSEARCH_URL=https://elasticsearch:9200
+    api-server: # API gateway to route the access of REST APIs
+        build: ./api-gw
 
-    dashb-importer:
-        build: ./dashboard
-        entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--", "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--", "./importer.sh"]
         depends_on:
             - oss-app
-            - elasticsearch
-            - kibiter
+            - auth-server
+
         networks:
             - default
 
-    prosoul:
-        image: acsdocker/prosoul
+        expose:
+            - 8086
         ports:
-         - "8000:8000"
+            - "8086:8086"
+
+
+    auth-server: # Server responsible for the authentication of the
+        build: ./auth
+
         depends_on:
-         - kibiter
-         - elasticsearch
+            - oss-db
+
+        networks:
+            - default
+
+        expose:
+            - 8085
+
+        ports:
+            - "8085:8085"
