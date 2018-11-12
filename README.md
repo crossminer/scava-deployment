@@ -14,4 +14,5 @@ You should follow the following steps to run this setup:
   
 	  For this address to work the first step is mandatory. We need it in order for the oss-app to know the address of the admin-webapp. If instead we use something like ‘localhost’, the oss-app will also use this hostname and the information will not reach the administration webbapp.
     
+    	Access the interface using http://admin-webapp:80
 	  For login use user: admin  pass: admin
