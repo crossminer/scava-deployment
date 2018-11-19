@@ -45,9 +45,11 @@ RUN pip3 install .
 WORKDIR ..
 
 COPY importer.sh importer.sh
+COPY starter.sh starter.sh
 COPY wait-for-it.sh wait-for-it.sh
 
 RUN chmod +x wait-for-it.sh
 RUN chmod +x importer.sh
+RUN chmod +x starter.sh
 
-ENTRYPOINT ["importer.sh"]
+ENTRYPOINT ["/starter.sh"]
