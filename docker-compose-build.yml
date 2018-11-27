@@ -190,3 +190,5 @@ services:
         depends_on:
          - kibiter
          - elasticsearch
+        environment:
+         - ALLOWED_HOSTS=prosoul localhost 127.0.01
