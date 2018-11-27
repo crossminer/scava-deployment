@@ -52,7 +52,7 @@ services:
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
         build: ./metric-platform
-        entrypoint: ./eclipse -master -worker w1 -apiServer -ossmeterConfig prop.properties
+        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-master", "-apiServer", "-worker", "w1", "-ossmeterConfig", "prop.properties"]
         depends_on:
             - oss-db
         networks:
@@ -80,8 +80,8 @@ services:
  # Each slave instance consumes a great amount of processing and memory resources.
  # Deployment of multiple instances may harm the system performance
     oss-db: # data storage service
-    #    build: ./oss-db #restores a dump of of the Knowledge Base
-        image: mongo:3.4 #current setup uses mongodb
+        build: ./oss-db #restores a dump of of the Knowledge Base
+    #    image: mongo:3.4 #current setup uses mongodb
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
@@ -136,7 +136,8 @@ services:
 
     auth-server: # Server responsible for the authentication of the
         build: ./auth
-
+        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "java", "-jar", "scava-auth-service-1.0.0.jar" ]
+      #  entrypoint: ["./wtfc.sh", "oss-app:8182", "--timeout=0", "java", "-jar", "scava-auth-service-1.0.0.jar" ]
         depends_on:
             - oss-db
 

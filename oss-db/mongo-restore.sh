@@ -22,12 +22,21 @@ done
 
 # Restore from dump
 
-mongorestore --port 8000 --drop --gzip --archive=scava.20180808.gz &&
-mongorestore  --port 8000 --drop --gzip --archive=users.20180808.gz &&
-mongorestore  --port 8000 --drop --gzip --archive=mqtt-client.20180808.gz &&
-mongorestore  --port 8000 --drop --gzip --archive=mqttclient.20180808.gz &&
-mongorestore  --port 8000 --drop --gzip --archive=json-simple.20180808.gz &&
-mongorestore  --port 8000 --drop --gzip --archive=jsonsimple.20180808.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=JDBM.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=JDBM3.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=Jest.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=SVNKIT.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=elasticsearch-java-client.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=elasticsearchjava.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=elasticsearchjavaclient.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=emf.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=gef.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=netty.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=scava-analysis.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=scava.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=spring-elasticsearch.2018.11.16.gz &&
+mongorestore  --port 8000 --drop --gzip --archive=springelasticsearch.2018.11.16.gz &&
+
 
 /entrypoint.sh mongod --port 8000 --shutdown
 
