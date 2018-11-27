@@ -10,7 +10,8 @@
 
 FROM python
 
-ENV GRIMOIRELAB_RELEASE "0.1.2"
+ENV GRIMOIRELAB_RELEASE "0.1.4"
+ENV KIDASH_RELEASE "0.4.12"
 
 RUN apt-get update \
 &&  apt-get install -y git \
@@ -29,10 +30,7 @@ RUN pip3 install --upgrade pip setuptools wheel
 
 RUN pip3 install grimoirelab==${GRIMOIRELAB_RELEASE}
 
-# Install kidash from master
-RUN git clone https://github.com/chaoss/grimoirelab-kidash.git && \
-    cd grimoirelab-kidash && \
-    pip3 install .
+RUN pip3 install kidash==${KIDASH_RELEASE}
 
 # Downloads perceval-scava and scava metrics folders from Github in 'dev' branch
 RUN svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/perceval-scava \
