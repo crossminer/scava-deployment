@@ -34,7 +34,7 @@ services:
         expose:
             - 80
         ports:
-            - "80:80"
+            - "5601:80"
     # oss-web: #deploys the OSSMETER Web App
     #     build: ./oss-web  # directory to the corresponding Dockerfile
     #     depends_on:
@@ -170,7 +170,7 @@ services:
       depends_on:
           - elasticsearch
       ports:
-       - "5601:5601"
+       - "80:5601"
       environment:
       - ELASTICSEARCH_URL=https://elasticsearch:9200
 
