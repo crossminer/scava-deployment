@@ -17,3 +17,14 @@ For this address to work the first step is mandatory. We need it in order for th
 Access the interface using http://admin-webapp:80
 
 For login use user: admin  pass: admin
+
+# Issues
+
+If `elasticsearch` fails to start with the following error:
+
+```
+elasticsearch_1_a57db85da40a | ERROR: [1] bootstrap checks failed
+elasticsearch_1_a57db85da40a | [1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+```
+
+Make sure to increase your local max virtual memory areas count: `sudo sysctl -w vm.max_map_count=262144`
