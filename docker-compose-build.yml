@@ -63,7 +63,6 @@ services:
         ports:
           - "8182:8182"
 
-
 #     oss-slave: # Service containing OSSMETER slaves instances
 #         build: ./metric-platform
 #         entrypoint: ./eclipse -worker w1  -ossmeterConfig prop.properties
@@ -176,7 +175,10 @@ services:
 
     dashb-importer:
         build: ./dashboard
-        entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--", "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--", "./starter.sh"]
+        entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--",
+                     "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--",
+                     "./wait-for-it.sh", "kibiter:80", "-t", "0", "--",
+                     "./starter.sh"]
         depends_on:
             - oss-app
             - elasticsearch
@@ -192,4 +194,4 @@ services:
          - kibiter
          - elasticsearch
         environment:
-         - ALLOWED_HOSTS=prosoul localhost 127.0.01
+         - ALLOWED_HOSTS=prosoul localhost 127.0.0.1
