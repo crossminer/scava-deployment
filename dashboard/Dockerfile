@@ -34,7 +34,9 @@ RUN pip3 install kidash==${KIDASH_RELEASE}
 
 # Downloads perceval-scava and scava metrics folders from Github in 'dev' branch
 RUN svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/perceval-scava \
-&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/scava-metrics
+&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/scava-metrics \
+&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/sentiment \
+&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/dependencies
 
 # Install perceval-scava
 WORKDIR perceval-scava
@@ -42,12 +44,14 @@ RUN pip3 install .
 
 WORKDIR ..
 
-COPY importer.sh importer.sh
+COPY importer-dashboards.sh importer-dashboards.sh
+COPY importer-scava-metrics.sh importer-scava-metrics.sh
 COPY starter.sh starter.sh
 COPY wait-for-it.sh wait-for-it.sh
 
 RUN chmod +x wait-for-it.sh
-RUN chmod +x importer.sh
+RUN chmod +x importer-dashboards.sh
+RUN chmod +x importer-scava-metrics.sh
 RUN chmod +x starter.sh
 
 ENTRYPOINT ["/starter.sh"]
