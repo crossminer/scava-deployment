@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-while true;
-sleep 10;
-do ./importer.sh;
-#wait 5 minutes
-sleep 300;
+while true; do
+    ./importer-scava-metrics.sh;
+    ./importer-dashboards.sh;
+    sleep 300;
 done
