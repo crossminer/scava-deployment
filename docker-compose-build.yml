@@ -177,7 +177,7 @@ services:
         build: ./dashboard
         entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--",
                      "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--",
-                     "./wait-for-it.sh", "kibiter:80", "-t", "0", "--",
+                     "./wait-for-it.sh", "kibiter:5601", "-t", "0", "--",
                      "./starter.sh"]
         depends_on:
             - oss-app
