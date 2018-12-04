@@ -6,7 +6,7 @@ LABEL description="Image with the Authentication Server"
 RUN apk add --no-cache bash
 
 # Downloads last jar build  by the continuous integration server
-RUN wget http://ci3.castalia.camp/dl/scava-auth-service-1.0.0.jar
+RUN wget http://ci5.castalia.camp:8080/job/scava-auth-service/job/dev/lastSuccessfulBuild/artifact/api-gateway/org.eclipse.scava.authservice/target/scava-auth-service-1.0.0.jar
 
 
 COPY application.properties application.properties
