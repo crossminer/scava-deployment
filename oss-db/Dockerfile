@@ -11,12 +11,21 @@
 FROM mongo:3.4
 
 # Get download dump archives
-ADD http://ci3.castalia.camp/dl/M18/scava.20180808.gz /home
-ADD http://ci3.castalia.camp/dl/M18/users.20180808.gz /home
-ADD http://ci3.castalia.camp/dl/M18/mqtt-client.20180808.gz /home
-ADD http://ci3.castalia.camp/dl/M18/mqttclient.20180808.gz /home
-ADD http://ci3.castalia.camp/dl/M18/json-simple.20180808.gz /home
-ADD http://ci3.castalia.camp/dl/M18/jsonsimple.20180808.gz /home
+ADD http://ci3.castalia.camp/dl/M24/JDBM.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/JDBM3.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/Jest.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/SVNKIT.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/elasticsearch-java-client.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/elasticsearchjava.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/elasticsearchjavaclient.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/emf.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/gef.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/netty.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/scava-analysis.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/scava.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/spring-elasticsearch.2018.11.16.gz /home
+ADD http://ci3.castalia.camp/dl/M24/springelasticsearch.2018.11.16.gz /home
+
 
 WORKDIR home
 
