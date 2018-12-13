@@ -5,14 +5,11 @@ LABEL description="Image with CROSSMINER Adminstration Web Interface"
 WORKDIR /usr/share/nginx/html
 
 
-ADD /nginx/default.conf /etc/nginx/conf.d/
+ADD default.conf /etc/nginx/conf.d/
 
 
-RUN wget http://ci3.castalia.camp/dl/admin-webapp.zip \
+RUN wget http://ci3.castalia.camp/dl/admin-webapp-1.1.zip \
 && unzip -o admin-webapp.zip \
 && rm admin-webapp.zip
-
-
-ADD /angular/externalConfig.json /usr/share/nginx/html/assets/config/
 
 EXPOSE 80
