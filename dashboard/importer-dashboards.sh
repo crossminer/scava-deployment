@@ -12,3 +12,9 @@ kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin
 cd ../dependencies
 # Import dependencies dashboards
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/dependencies.json
+
+sleep 10;
+
+cd ../scava-metrics
+# Set index pattern
+./setindexpattern.py -k http://admin:admin@kibiter:5601 -ip ea1313b0-8f29-11e8-a362-0d37aacd7dee
