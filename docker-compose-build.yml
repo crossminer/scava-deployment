@@ -168,6 +168,8 @@ services:
           - default
       depends_on:
           - elasticsearch
+      expose:
+          - 5601
       ports:
        - "80:5601"
       environment:
