@@ -53,5 +53,7 @@ RUN chmod +x wait-for-it.sh
 RUN chmod +x importer-dashboards.sh
 RUN chmod +x importer-scava-metrics.sh
 RUN chmod +x starter.sh
+RUN chmod +x scava-metrics/scava2es.py
+RUN chmod +x scava-metrics/setindexpattern.py
 
 ENTRYPOINT ["/starter.sh"]
