@@ -13,3 +13,6 @@ then
 	echo "------------- cat ${json_file} ---------------------"
 	cat "${json_file}"
 fi
+
+echo "Starting NGINX Server"
+nginx -g "daemon off;"

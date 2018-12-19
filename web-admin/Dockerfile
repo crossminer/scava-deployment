@@ -1,6 +1,8 @@
 FROM nginx:1.14-alpine
 LABEL description="Image with CROSSMINER Adminstration Web Interface"
 
+ENV API_GATEWAY_VAR=http://localhost:8086
+
 WORKDIR /usr/share/nginx/html
 
 ADD default.conf /etc/nginx/conf.d/
