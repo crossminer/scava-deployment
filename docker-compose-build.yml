@@ -27,6 +27,8 @@ version: "3"
 services:
     admin-webapp:
         build: ./web-admin
+        environment:
+            - API_GATEWAY_VAR=http://localhost:8086
         depends_on:
             - api-server
         networks:
