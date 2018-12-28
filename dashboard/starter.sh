@@ -2,10 +2,13 @@
 
 FLAG=0
 while true; do
-    ./importer-scava-metrics.sh;
-
+    echo "Starting metrics import..."
+    ./importer-scava-metrics.sh 2>/dev/null;
+    echo "Metrics imported"
     if [[ $FLAG -eq 0 ]]; then
-        ./importer-dashboards.sh;
+        echo "Starting panels configuration"
+        ./importer-dashboards.sh 2>/dev/null;
+        echo "Panels configured"
         FLAG=1;
     fi
     sleep 300;
