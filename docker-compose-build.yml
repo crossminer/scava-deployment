@@ -189,6 +189,8 @@ services:
             - kibiter
         networks:
             - default
+        environment:
+            - DASHDEBUG=0
 
     prosoul:
         image: acsdocker/prosoul
