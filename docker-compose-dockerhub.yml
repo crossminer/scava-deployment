@@ -42,7 +42,7 @@ services:
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
         image: crossminer/metric-platform:dev
-        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-apiServer", "-master", "-ossmeterConfig", "prop.properties"]
+        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-apiServer", "-master", "-config", "prop.properties"]
         depends_on:
             - oss-db
         networks:
@@ -56,7 +56,7 @@ services:
 
     oss-slave: # Service containing OSSMETER slaves instances
         image: crossminer/metric-platform:dev
-        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-apiServer", "-master", "-ossmeterConfig", "prop.properties"]
+        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-apiServer", "-master", "-config", "prop.properties"]
         depends_on:
             - oss-db
             - oss-app
