@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 
 cd scava-metrics
-# Import knowledge base dashboards
+# Import knowledge base dashboards (legacy)
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-project.json
 # Import sentiment base dashboards
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-sentiment.json
 # Import sentiment base dashboards
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-factoids.json
+# Import QM base dashboards
+kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-qm.json
+# Import QM base dashboards
+kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-dashboard.json
 
-cd ../sentiment
+# cd ../sentiment
 # Import sentiment dashboards
-kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/perceval_bugs_emotion_fear.json
-kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/perceval_bugs_emotions.json
+# kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/perceval_bugs_emotion_fear.json
+# kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/perceval_bugs_emotions.json
 
-cd ../dependencies
+# cd ../dependencies
 # Import dependencies dashboards
-kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/dependencies.json
+# kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/dependencies.json
 
 sleep 10;
 
