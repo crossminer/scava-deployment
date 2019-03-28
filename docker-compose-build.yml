@@ -192,8 +192,8 @@ services:
         environment:
             - DASHDEBUG=0
 
-    prosoul:
-        image: acsdocker/prosoul
+prosoul:
+        image: bitergia/prosoul
         ports:
          - "8000:8000"
         depends_on:
@@ -201,3 +201,5 @@ services:
          - elasticsearch
         environment:
          - ALLOWED_HOSTS=prosoul localhost 127.0.0.1
+         - ES_URL=https://admin:admin@elasticsearch:9200
+         - KIBITER_URL=https://kibiter:80
