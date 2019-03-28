@@ -192,7 +192,7 @@ services:
         environment:
             - DASHDEBUG=0
 
-prosoul:
+    prosoul:
         image: bitergia/prosoul
         ports:
          - "8000:8000"
