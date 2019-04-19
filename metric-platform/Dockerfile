@@ -56,4 +56,4 @@ RUN rm -rf META-INF
 WORKDIR ..
 
 # By default, starts the platform to run the master, a slave, and the web API
-ENTRYPOINT exec ./eclipse -apiServer -master -slave -ossmeterConfig prop.properties
+ENTRYPOINT exec ./eclipse -apiServer -master -slave -config prop.properties
