@@ -1,0 +1,63 @@
+#!/bin/bash
+
+echo "Running Prosoul"
+REPOSRC=https://github.com/Bitergia/prosoul.git
+LOCALREPO=prosoul/django-prosoul/
+
+if [ ! -d $LOCALREPO ]
+then
+    git clone $REPOSRC
+fi
+
+cd $LOCALREPO
+
+# Set exec permission for config_deployment.py
+sudo chmod 770 config_deployment.py
+
+# debug false and allow hosts
+./config_deployment.py
+
+# Create the data models
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+# Create the initial admin user: admin/admin
+PYTHONPATH=. django_prosoul/create_admin_superuser.py
+
+# Import some quality models as samples
+PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/ossmeter_qm.json --format ossmeter
+PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/alambic_quality_model.json --format alambic
+PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/basic_maturiy_model.json --format grimoirelab
+# PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/qmodel_crossminer.json
+
+# Upload default quality model
+URL=$ES_URL/scava-metrics-done
+
+# check that the scava metrics index exists
+while true; do
+    HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -XGET $URL --insecure)
+    HTTP_STATUS=$(echo $HTTP_RESPONSE | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+
+    if [ $HTTP_STATUS -eq 200 ]; then
+        break
+    fi
+
+    echo "$URL not available, waiting..."
+    sleep 30;
+done
+
+# Import default_quality_model.json
+wget $QM_URL -O ${DEPLOY_USER_DIR}/default_quality_model.json
+
+if [ $DASHDEBUG -eq 1 ]; then
+     PYTHONPATH=. prosoul/prosoul_import.py -g -f /home/prosoul/default_quality_model.json;
+     PYTHONPATH=. prosoul/prosoul_assess.py -g -e $ES_URL -i scava-metrics -m $QM_NAME -b scava-metrics;
+else
+     PYTHONPATH=. prosoul/prosoul_import.py -f /home/prosoul/default_quality_model.json;
+     PYTHONPATH=. prosoul/prosoul_assess.py -e $ES_URL -i scava-metrics -m $QM_NAME -b scava-metrics;
+fi
+
+# Run the Prosoul service
+python3 manage.py runserver 0.0.0.0:8000
+# There is an issue with gunicorn finding static contents
+# gunicorn django_prosoul.wsgi --bind 0.0.0.0:8000
