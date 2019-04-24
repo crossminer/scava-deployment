@@ -6,6 +6,7 @@ while true; do
 
     if [[ $FLAG -eq 0 ]]; then
         ./importer-dashboards.sh;
+        curl -XPUT https://admin:admin@elasticsearch:9200/scava-metrics-done --insecure
         FLAG=1;
     fi
     sleep 300;
