@@ -39,7 +39,7 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG C.UTF-8
 
 # Install pip packages needed
-RUN pip3 install setuptools
+RUN pip3 install --upgrade pip setuptools wheel
 RUN pip3 install django
 RUN pip3 install gunicorn
 RUN pip3 install matplotlib
