@@ -27,9 +27,8 @@ build-essential
 
 # Install GrimoireLab
 RUN pip3 install --upgrade pip setuptools wheel
-
+RUN pip3 install requests
 RUN pip3 install grimoirelab==${GRIMOIRELAB_RELEASE}
-
 RUN pip3 install kidash==${KIDASH_RELEASE}
 
 # Downloads perceval-scava and scava metrics folders from Github in 'dev' branch
