@@ -10,7 +10,7 @@ kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin
 # Import QM base dashboard
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-qm.json
 # Import overview dashboard
-kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-dashboard.json
+kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-overview.json
 # Import dependency dashboard
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-dependencies.json
 
