@@ -33,9 +33,7 @@ RUN pip3 install kidash==${KIDASH_RELEASE}
 
 # Downloads perceval-scava and scava metrics folders from Github in 'dev' branch
 RUN svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/perceval-scava \
-&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/scava-metrics \
-&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/sentiment \
-&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/dependencies
+&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/scava-metrics
 
 # Install perceval-scava
 WORKDIR perceval-scava
