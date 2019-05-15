@@ -205,5 +205,6 @@ services:
          - KIBITER_URL=https://kibiter:80
          - KIBITER_HOST=http://localhost:80
          - DASHDEBUG=0
+         - SYNC_ES_SCAVA=0
          - QM_URL=https://raw.githubusercontent.com/Bitergia/prosoul/master/django-prosoul/prosoul/data/qmodel_crossminer.json
          - QM_NAME=crossminer
