@@ -25,9 +25,9 @@ python3 manage.py migrate
 PYTHONPATH=. django_prosoul/create_admin_superuser.py
 
 # Import some quality models as samples
-PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/ossmeter_qm.json --format ossmeter
-PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/alambic_quality_model.json --format alambic
-PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/basic_maturiy_model.json --format grimoirelab
+# PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/ossmeter_qm.json --format ossmeter
+# PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/alambic_quality_model.json --format alambic
+# PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/basic_maturiy_model.json --format grimoirelab
 # PYTHONPATH=. prosoul/prosoul_import.py -f prosoul/data/qmodel_crossminer.json
 
 # Upload default quality model
