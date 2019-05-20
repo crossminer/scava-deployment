@@ -203,6 +203,7 @@ services:
          - ALLOWED_HOSTS=prosoul localhost 127.0.0.1
          - ES_URL=https://admin:admin@elasticsearch:9200
          - KIBITER_URL=https://kibiter:80
+         - KIBITER_HOST=http://localhost:80
          - DASHDEBUG=0
          - QM_URL=https://raw.githubusercontent.com/Bitergia/prosoul/master/django-prosoul/prosoul/data/qmodel_crossminer.json
          - QM_NAME=crossminer
