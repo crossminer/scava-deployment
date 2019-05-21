@@ -17,6 +17,6 @@ else
     ./scava2es.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-users --category user;
 fi
 
-if [[ $SYNC_ES_SCAVA -eq 1]]; then
+if [[ $SYNC_ES_SCAVA -eq 1 ]]; then
     ./synccontent.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-metrics scava-factoids scava-deps;
 fi
