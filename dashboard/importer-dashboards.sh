@@ -13,6 +13,8 @@ kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-overview.json
 # Import dependency dashboard
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-dependencies.json
+# Import user dashboard
+kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-users.json
 
 sleep 10;
 
