@@ -37,19 +37,6 @@ services:
             - 80
         ports:
             - "5601:80"
-    # oss-web: #deploys the OSSMETER Web App
-    #     build: ./oss-web  # directory to the corresponding Dockerfile
-    #     depends_on:
-    #         - oss-app
-    #         - oss-db #only requests for oss-db service to be launched before this service. DB may still not be ready when this service starts
-    #     networks:
-    #         - default
-    #     expose:  #exposes oss-app port
-    #         - 9000
-    #
-    #     # maps the port 9000 in the localhost to port 9000 of container  "HOST:CONTAINER"
-    #     ports:
-    #         - "9000:9000"
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
@@ -64,25 +51,19 @@ services:
             - 8183 #Admin API?
         ports:
           - "8182:8182"
+    ### Uncoment the service below to add more workers
+    # oss-slave: # Service containing OSSMETER slaves instances
+    #     build: ./metric-platform
+    #     entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-worker", "w2", "-config", "prop.properties"]
+    #     depends_on:
+    #       - oss-db
+    #       - oss-app
+    #     networks:
+    #       - default
 
-#     oss-slave: # Service containing OSSMETER slaves instances
-#         build: ./metric-platform
-#         entrypoint: ./eclipse -worker w1  -ossmeterConfig prop.properties
-# # #        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "100", "--", "./eclipse", "-slave", "-config", "prop.properties"]
-#         depends_on:
-#          - oss-db
-#          - oss-app
-#         networks:
-#          - default
- # NOTE: To scale up the number of slaves in OSSMETER application using docker composer use:
- #                  docker-compose scale oss-slave=X
- #       where 'X' corresponds to the total number of slaves wanted in the application
- #
- # Each slave instance consumes a great amount of processing and memory resources.
- # Deployment of multiple instances may harm the system performance
     oss-db: # data storage service
         build: ./oss-db #restores a dump of of the Knowledge Base
-    #    image: mongo:3.4 #current setup uses mongodb
+        # image: mongo:3.4 #current setup uses mongodb
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
