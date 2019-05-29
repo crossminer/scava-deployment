@@ -49,8 +49,10 @@ services:
         expose: #exposes OSSMETER API client port to oss-web application
             - 8182
             - 8183 #Admin API?
+            - 8192 # JMX port
         ports:
           - "8182:8182"
+          - "8192:8192"
     ### Uncoment the service below to add more workers
     # oss-slave: # Service containing OSSMETER slaves instances
     #     build: ./metric-platform
