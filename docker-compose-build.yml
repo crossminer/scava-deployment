@@ -136,7 +136,7 @@ services:
 
     elasticsearch:
         image: acsdocker/elasticsearch:6.3.1-secured
-        command: /elasticsearch/bin/elasticsearch -E network.bind_host=0.0.0.0
+        command: /elasticsearch/bin/elasticsearch -E network.bind_host=0.0.0.0 -Ehttp.max_content_length=500mb
         networks:
             - default
         expose:
