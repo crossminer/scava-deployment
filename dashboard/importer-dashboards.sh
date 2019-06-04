@@ -4,7 +4,7 @@ cd scava-metrics
 # Import knowledge base dashboard (legacy)
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-project.json
 # Import sentiment dashboard
-kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-sentiment.json
+kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-sentiment-emotion.json
 # Import factoid dashboard
 kidash -e https://admin:admin@elasticsearch:9200 --kibana-url http://admin:admin@kibiter:5601 --import panels/scava-factoids.json
 # Import QM base dashboard
