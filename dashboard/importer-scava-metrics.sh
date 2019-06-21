@@ -5,6 +5,7 @@ cd scava-metrics
 
 if [[ $DASHDEBUG -eq 1 ]]; then
     ./scava2es.py -g -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-metrics --category metric --bulk-size $BULKSIZE;
+    ./scava2es.py -g -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-topics --category topic --bulk-size $BULKSIZE;
     ./scava2es.py -g -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-factoids --category factoid --bulk-size $BULKSIZE;
     ./scava2es.py -g -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-dev-deps --category dev-dependency --bulk-size $BULKSIZE;
     ./scava2es.py -g -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-conf-deps --category conf-dependency --bulk-size $BULKSIZE;
@@ -15,6 +16,7 @@ if [[ $DASHDEBUG -eq 1 ]]; then
     ./scava2es.py -g -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-project-relations --category project-relation --bulk-size $BULKSIZE;
 else
     ./scava2es.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-metrics --category metric --bulk-size $BULKSIZE;
+    ./scava2es.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-topics --category topic --bulk-size $BULKSIZE;
     ./scava2es.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-factoids --category factoid --bulk-size $BULKSIZE;
     ./scava2es.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-dev-deps --category dev-dependency --bulk-size $BULKSIZE;
     ./scava2es.py -u http://oss-app:8182 -e https://admin:admin@elasticsearch:9200 -i scava-conf-deps --category conf-dependency --bulk-size $BULKSIZE;
