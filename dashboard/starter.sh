@@ -2,6 +2,7 @@
 
 FLAG=0
 while true; do
+    ./importer-sonar-metrics.sh;
     ./importer-scava-metrics.sh;
 
     if [[ $FLAG -eq 0 ]]; then

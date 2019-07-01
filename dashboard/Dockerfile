@@ -42,15 +42,18 @@ RUN pip3 install .
 WORKDIR ..
 
 COPY importer-dashboards.sh importer-dashboards.sh
+COPY importer-sonar-metrics.sh importer-sonar-metrics.sh
 COPY importer-scava-metrics.sh importer-scava-metrics.sh
 COPY starter.sh starter.sh
 COPY wait-for-it.sh wait-for-it.sh
 
 RUN chmod +x wait-for-it.sh
 RUN chmod +x importer-dashboards.sh
+RUN chmod +x importer-sonar-metrics.sh
 RUN chmod +x importer-scava-metrics.sh
 RUN chmod +x starter.sh
 RUN chmod +x scava-metrics/scava2es.py
+RUN chmod +x scava-metrics/sonarqube2es.py
 RUN chmod +x scava-metrics/setindexpattern.py
 RUN chmod +x scava-metrics/synccontent.py
 
