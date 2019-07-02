@@ -44,6 +44,7 @@ services:
         entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-master", "-apiServer", "-worker", "w1", "-config", "prop.properties"]
         depends_on:
             - oss-db
+            - elasticsearch
         networks:
             - default
         expose: #exposes OSSMETER API client port to oss-web application
