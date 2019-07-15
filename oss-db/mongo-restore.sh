@@ -28,37 +28,15 @@ while [[ $? -ne 0 && $COUNTER -lt 60 ]] ; do
 done
 
 # Restore from dump
+shopt -s nullglob
+DUMPS=(*2018.11.16*.gz)
+NB_DUMPS=${#DUMPS[@]}
 
-
-echo "Restoring (0/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=JDBM.2018.11.16.gz &&
-echo "Restoring (1/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=JDBM3.2018.11.16.gz &&
-echo "Restoring (2/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=Jest.2018.11.16.gz &&
-echo "Restoring (3/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=SVNKIT.2018.11.16.gz &&
-echo "Restoring (4/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=elasticsearch-java-client.2018.11.16.gz &&
-echo "Restoring (5/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=elasticsearchjava.2018.11.16.gz &&
-echo "Restoring (6/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=elasticsearchjavaclient.2018.11.16.gz &&
-echo "Restoring (7/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=emf.2018.11.16.gz &&
-echo "Restoring (8/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=gef.2018.11.16.gz &&
-echo "Restoring (9/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=netty.2018.11.16.gz &&
-echo "Restoring (10/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=scava-analysis.2018.11.16.gz &&
-echo "Restoring (11/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=scava.2018.11.16.gz &&
-echo "Restoring (12/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=spring-elasticsearch.2018.11.16.gz &&
-echo "Restoring (13/14)" &&
-mongorestore  --port 8000 --gzip --quiet --archive=springelasticsearch.2018.11.16.gz &&
-echo "Restoring (14/14)" &&
+DCOUNT=0
+for DUMP in "${DUMPS[@]}" ; do
+        ((DCOUNT++))
+        echo "Restoring (${DCOUNT}/${NB_DUMPS})" && mongorestore  --port 8000 --gzip --quiet --archive=${DUMP}
+done
 
 /entrypoint.sh mongod --logpath /var/log/mongodb.log --logappend --port 8000 --shutdown &&
 echo "Restore session closed" &&
