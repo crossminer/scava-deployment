@@ -35,7 +35,7 @@ NB_DUMPS=${#DUMPS[@]}
 DCOUNT=0
 for DUMP in "${DUMPS[@]}" ; do
         ((DCOUNT++))
-        echo "Restoring (${DCOUNT}/${NB_DUMPS})" && mongorestore  --port 8000 --gzip  --archive=${DUMP}
+        echo "Restoring (${DCOUNT}/${NB_DUMPS})" && mongorestore  --port 8000 --gzip --quiet --archive=${DUMP}
 done
 
 /entrypoint.sh mongod --logpath /var/log/mongodb.log --logappend --port 8000 --shutdown &&
