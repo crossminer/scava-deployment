@@ -2,7 +2,6 @@
 
 FLAG=0
 while true; do
-    ./importer-sonar-metrics.sh;
     ./importer-scava-metrics.sh;
     ./importer-omm-metrics.sh;
 
