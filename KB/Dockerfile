@@ -13,7 +13,8 @@ RUN wget http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/dev/lastSucc
 RUN mkdir localM3models
 RUN mkdir maven_repo
 RUN mkdir deltas
-COPY Indexes.tar.gz /home/root/
+# COPY Indexes.tar.gz /home/root/
+ADD  http://ci3.castalia.camp/dl/Indexes.tar.gz /home/root/
 RUN tar -xzf /home/root/Indexes.tar.gz
 # Update the jar file with the Docker specific configurions
 RUN jar -uf scava.knoledgebase.jar application.properties
