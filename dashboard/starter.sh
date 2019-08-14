@@ -3,7 +3,6 @@
 FLAG=0
 while true; do
     ./importer-scava-metrics.sh;
-    ./importer-omm-metrics.sh;
 
     if [[ $FLAG -eq 0 ]]; then
         ./importer-dashboards.sh;
