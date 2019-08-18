@@ -4,7 +4,7 @@ This repository contains the Docker configuration files for the deployment of Sc
 You should follow the following steps to run this setup:
 
 1. Configure the Environment variable `API_GATEWAY_VAR` under the `web-admin` service with the http://<your_hostname>:<gateway_api_public_port>
-1. (Re)Build the docker images using: `docker-compose -f docker-compose-build.yml build --no-cache`
+1. (Re)Build the docker images using: `docker-compose -f docker-compose-build.yml build --no-cache --parallel`
 1. Run the crossminer plaftorm using: `docker-compose -f docker-compose-build.yml up`. Please notice that for this setup we are using an empty mongodb database for oss-db
 1. Access to the administration web app by using the following address in the web browser: http://admin-webapp/
 
@@ -16,6 +16,8 @@ For login use user: admin  pass: admin
 
 # Issues
 
+## Elasticsearch
+
 If `elasticsearch` fails to start with the following error:
 
 ```
@@ -24,3 +26,10 @@ elasticsearch_1_a57db85da40a | [1]: max virtual memory areas vm.max_map_count [6
 ```
 
 Make sure to increase your local max virtual memory areas count: `sudo sysctl -w vm.max_map_count=262144`
+
+## Docker-compose
+
+In case you want to make sure to start from a fresh installation, consider to execute:
+```
+docker system prune -a --volumes
+```
