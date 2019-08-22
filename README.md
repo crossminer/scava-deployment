@@ -33,3 +33,26 @@ In case you want to make sure to start from a fresh installation, consider to ex
 ```
 docker system prune -a --volumes
 ```
+
+## Task analysis
+
+The deployment of all CROSSMINER services listed in the docker-compose may drain out your machine/server resources. The
+guidelines below can help you to get your task analysis done.
+
+- Limit the number of services in docker-compose
+- Limit the number of metrics
+- Limit the time interval of the analysis
+- (Optional) Don't queue task analysis, once a task has finished, add a new one
+
+In case the task analysis stops, consider to follow the steps below:
+  - docker-compose stop
+  - docker-compose up
+  - stop the task execution
+  - start the task execution
+
+If the steps above don't solve the issue, you can try to:
+  - delete task analysis
+  - docker-compose stop
+  - docker-compose up
+  - recreate the task analysis
+  - start the task execution
