@@ -7,7 +7,7 @@ RUN apt-get update \
 subversion
 
 ## records the branch and commit version associated to the software
-RUN echo "dev-$(git ls-remote https://github.com/crossminer/scava.git $BRANCH | awk '{ print $1}')" > version \
+RUN echo "$BRANCH-$(git ls-remote https://github.com/crossminer/scava.git $BRANCH | awk '{ print $1}')" > version \
 &&  svn export https://github.com/crossminer/scava/branches/$BRANCH/administration/scava-administration/ \
 &&  cd scava-administration \
 &&  npm update \
@@ -26,6 +26,7 @@ WORKDIR /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d/
 
 COPY --from=builder /scava-administration/dist .
+COPY --from=builder /version /version
 
 ## startup.sh script is launched at container run
 COPY startup.sh /startup.sh
