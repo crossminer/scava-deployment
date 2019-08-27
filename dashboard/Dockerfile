@@ -8,7 +8,9 @@
 # SPDX-License-Identifier: EPL-2.0
 ######################################################################
 
-FROM python
+FROM python:3.7-slim
+
+ARG BRANCH=dev
 
 ENV GRIMOIRELAB_RELEASE "0.1.4"
 ENV KIDASH_RELEASE "0.4.12"
@@ -16,14 +18,8 @@ ENV KIDASH_RELEASE "0.4.12"
 RUN apt-get update \
 &&  apt-get install -y git \
 subversion \
-build-essential
-#gcc \
-#musl-dev \
-#libffi-dev \
-#openssl-dev \
-#openblas-dev \
-#py3-numpy \
-#py3-scipy
+build-essential \
+&& rm -r /var/lib/apt/lists/*
 
 # Install GrimoireLab
 RUN pip3 install --upgrade pip setuptools wheel
@@ -31,9 +27,11 @@ RUN pip3 install requests
 RUN pip3 install grimoirelab==${GRIMOIRELAB_RELEASE}
 RUN pip3 install kidash==${KIDASH_RELEASE}
 
-# Downloads perceval-scava and scava metrics folders from Github in 'dev' branch
-RUN svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/perceval-scava \
-&& svn export https://github.com/crossminer/scava/branches/dev/web-dashboards/scava-metrics
+# Downloads perceval-scava and scava metrics folders from Github in $BRANCH branch
+RUN svn export https://github.com/crossminer/scava/branches/$BRANCH/web-dashboards/perceval-scava \
+&& svn export https://github.com/crossminer/scava/branches/$BRANCH/web-dashboards/scava-metrics \
+&& echo "$BRANCH-$(git ls-remote https://github.com/crossminer/scava.git $BRANCH | awk '{ print $1}')" > version
+
 
 # Install perceval-scava
 WORKDIR perceval-scava
@@ -48,16 +46,16 @@ COPY importer-omm-metrics.sh importer-omm-metrics.sh
 COPY starter.sh starter.sh
 COPY wait-for-it.sh wait-for-it.sh
 
-RUN chmod +x wait-for-it.sh
-RUN chmod +x importer-dashboards.sh
-RUN chmod +x importer-sonar-metrics.sh
-RUN chmod +x importer-scava-metrics.sh
-RUN chmod +x importer-omm-metrics.sh
-RUN chmod +x starter.sh
-RUN chmod +x scava-metrics/scava2es.py
-RUN chmod +x scava-metrics/sonarqube2es.py
-RUN chmod +x scava-metrics/omm2es.py
-RUN chmod +x scava-metrics/setindexpattern.py
-RUN chmod +x scava-metrics/synccontent.py
+RUN chmod +x wait-for-it.sh \
+&& chmod +x importer-dashboards.sh \
+&& chmod +x importer-sonar-metrics.sh \
+&& chmod +x importer-scava-metrics.sh \
+&& chmod +x importer-omm-metrics.sh \
+&& chmod +x starter.sh \
+&& chmod +x scava-metrics/scava2es.py \
+&& chmod +x scava-metrics/sonarqube2es.py \
+&& chmod +x scava-metrics/omm2es.py \
+&& chmod +x scava-metrics/setindexpattern.py \
+&& chmod +x scava-metrics/synccontent.py
 
 ENTRYPOINT ["/starter.sh"]
