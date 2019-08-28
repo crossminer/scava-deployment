@@ -49,7 +49,3 @@ services:
     dashb-importer:
         build: ./dashboard
         entrypoint: ["cat", "/version"]
-
-    prosoul:
-        build: ./quality-model
-        entrypoint: ["cat", "/version"]
