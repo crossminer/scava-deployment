@@ -21,10 +21,11 @@ LABEL description="Image with the OSSMETER platform"
 
 ARG BRANCH=dev
 
-# install python 3 and ruby and puppet-lint
+# install python 3 and ruby and puppet-lint and maven
 RUN apt-get update \
 &&  apt-get install -y python3 \
     ruby \
+	maven \
 && apt-get clean \
 && rm -r /var/lib/apt/lists/*  \
 &&  gem install puppet-lint
