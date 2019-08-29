@@ -3,14 +3,22 @@ FROM openjdk:8-jdk-alpine
 
 LABEL description="Image with the Knowledge base image"
 
-# File with Docker specific configurations
+ARG BRANCH=dev
+
+RUN apk add --update \
+    curl \
+    && rm -rf /var/cache/apk/*
 
 WORKDIR /home/root
+
+# File with Docker specific configurations
 COPY application.properties application.properties
 COPY src-rascal/ /home/root
 
 # Downloads last jar build  by the continuous integration server
-RUN wget http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/dev/lastSuccessfulBuild/artifact/knowledge-base/org.eclipse.scava.knowledgebase/target/scava.knoledgebase.jar
+RUN wget http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/dev/lastSuccessfulBuild/artifact/knowledge-base/org.eclipse.scava.knowledgebase/target/scava.knoledgebase.jar \
+&& echo "$BRANCH-$(curl -s http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/$BRANCH/lastSuccessfulBuild/consoleText | sed '3q;d' | awk '{ print $NF}')" > /version
+
 
 RUN mkdir localM3models \
 &&  mkdir maven_repo \
