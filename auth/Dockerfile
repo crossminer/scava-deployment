@@ -10,7 +10,7 @@ RUN apk add --update bash \
 && rm -rf /var/cache/apk/*
 
 # Downloads last jar build  by the continuous integration server
-RUN wget http://ci5.castalia.camp:8080/job/scava-auth-service/job/dev/lastSuccessfulBuild/artifact/api-gateway/org.eclipse.scava.authservice/target/scava-auth-service-1.0.0.jar \
+RUN wget http://ci5.castalia.camp:8080/job/scava-auth-service/job/$BRANCH/lastSuccessfulBuild/artifact/api-gateway/org.eclipse.scava.authservice/target/scava-auth-service-1.0.0.jar \
 && echo "$BRANCH-$(curl -s http://ci5.castalia.camp:8080/job/scava-auth-service/job/$BRANCH/lastSuccessfulBuild/consoleText | sed '3q;d' | awk '{ print $NF}')" > /version
 
 

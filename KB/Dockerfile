@@ -16,7 +16,7 @@ COPY application.properties application.properties
 COPY src-rascal/ /home/root
 
 # Downloads last jar build  by the continuous integration server
-RUN wget http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/dev/lastSuccessfulBuild/artifact/knowledge-base/org.eclipse.scava.knowledgebase/target/scava.knoledgebase.jar \
+RUN wget http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/$BRANCH/lastSuccessfulBuild/artifact/knowledge-base/org.eclipse.scava.knowledgebase/target/scava.knoledgebase.jar \
 && echo "$BRANCH-$(curl -s http://ci5.castalia.camp:8080/job/scava-knowledge-base/job/$BRANCH/lastSuccessfulBuild/consoleText | sed '3q;d' | awk '{ print $NF}')" > /version
 
 
