@@ -25,63 +25,42 @@
 
 version: "3"
 services:
-    admin-webapp:
-        build: ./web-admin
-        environment:
-            - API_GATEWAY_VAR=http://localhost:8086
-        depends_on:
-            - api-server
-        networks:
-            - default
-        expose:
-            - 80
-        ports:
-            - "5601:80"
 
-    oss-app: #Deploys a container with the OSSMETER platform configured to act as master
-             # and to run the api server used by oss-web service
-        build: ./metric-platform
-        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-master", "-apiServer", "-worker", "w1", "-config", "prop.properties"]
-        depends_on:
-            - oss-db
-            - elasticsearch
-        networks:
-            - default
-        expose: #exposes OSSMETER API client port to oss-web application
-            - 8182
-            - 8183 #Admin API?
-            - 8192 # JMX port
-        ports:
-          - "8182:8182"
-          - "8192:8192"
-    ### Uncoment the service below to add more workers
-    # oss-slave: # Service containing OSSMETER slaves instances
-    #     image: scava-deployment_oss-app
-    #     entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-worker", "w2", "-config", "prop.properties"]
-    #     depends_on:
-    #       - oss-db
-    #       - oss-app
-    #     networks:
-    #       - default
-
-    oss-db: # data storage service
-        build: ./oss-db #restores a dump of of the Knowledge Base
-        # image: mongo:3.4 #current setup uses mongodb
-        networks:
-            - default
-        expose:  #exposes database port to oss-web and oss-app
-            - 27017
-    #    volumes: #creates volume on container
-    #        - ~/oss-data:/data/db
- # Uncomment the port map below to give access to external mongo database visualizers
-        ports:
-            - "27017:27017"
+ #    oss-app: #Deploys a container with the OSSMETER platform configured to act as master
+ #             # and to run the api server used by oss-web service
+ #        build: ./metric-platform
+ #        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-master", "-apiServer", "-worker", "w1", "-config", "prop.properties"]
+ #        depends_on:
+ #            - oss-db
+ #        networks:
+ #            - default
+ #        expose: #exposes OSSMETER API client port to oss-web application
+ #            - 8182
+ #            - 8183 #Admin API?
+ #            - 8192 # JMX port
+ #        ports:
+ #          - "8182:8182"
+ #          - "8192:8192"
+ #
+ #    oss-db: # data storage service
+ #        # build: ./oss-db #restores a dump of of the Knowledge Base
+ #        image: mongo:3.4 #current setup uses mongodb
+ #        networks:
+ #            - default
+ #        expose:  #exposes database port to oss-web and oss-app
+ #            - 27017
+ #    #    volumes: #creates volume on container
+ #    #        - ~/oss-data:/data/db
+ # # Uncomment the port map below to give access to external mongo database visualizers
+ #        ports:
+ #            - "27017:27017"
 
     kb-service: #deploys the Knowledge Base services
         build: ./KB  # directory to the corresponding Dockerfile
         depends_on:
             - kb-db #only requests for kb-db service to be launched before this service. DB may still not be ready when this service starts
-            - oss-app
+            - elasticsearch
+          #  - oss-app
         networks:
             - default
         # maps the port 8080 in the localhost to port 8080 of container  "HOST:CONTAINER"
@@ -90,8 +69,8 @@ services:
 
 
     kb-db: # data storage service for the Knowledge Base services
-        build: ./KB-db #restores a dump of of the Knowledge Base
-    #    image: mongo:3.4 #use a clean database
+        # build: ./KB-db #restores a dump of of the Knowledge Base
+        image: mongo:3.4 #use a clean database
         networks:
             - default
         expose:  #exposes database port to oss-web and oss-app
@@ -101,39 +80,6 @@ services:
  # Uncomment the port map below to give access to external mongo database visualizers
         ports:
             - "27018:27017"
-
-
-    api-server: # API gateway to route the access of REST APIs
-        build: ./api-gw
-
-        depends_on:
-            - oss-app
-            - auth-server
-
-        networks:
-            - default
-
-        expose:
-            - 8086
-        ports:
-            - "8086:8086"
-
-
-    auth-server: # Server responsible for the authentication of the
-        build: ./auth
-        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "java", "-jar", "scava-auth-service-1.0.0.jar" ]
-      #  entrypoint: ["./wtfc.sh", "oss-app:8182", "--timeout=0", "java", "-jar", "scava-auth-service-1.0.0.jar" ]
-        depends_on:
-            - oss-db
-
-        networks:
-            - default
-
-        expose:
-            - 8085
-
-        ports:
-            - "8085:8085"
 
     elasticsearch:
         image: acsdocker/elasticsearch:6.3.1-secured
@@ -147,50 +93,3 @@ services:
         environment:
           - ES_JAVA_OPTS=-Xms2g -Xmx2g
           - ES_TMPDIR=/tmp
-
-    kibiter:
-      image: acsdocker/grimoirelab-kibiter:crossminer-6.3.1
-      networks:
-          - default
-      depends_on:
-          - elasticsearch
-      expose:
-          - 5601
-      ports:
-       - "80:5601"
-      environment:
-      - ELASTICSEARCH_URL=https://elasticsearch:9200
-
-    dashb-importer:
-        build: ./dashboard
-        entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--",
-                     "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--",
-                     "./wait-for-it.sh", "kibiter:5601", "-t", "0", "--",
-                     "./starter.sh"]
-        depends_on:
-            - oss-app
-            - elasticsearch
-            - kibiter
-        networks:
-            - default
-        environment:
-            - DASHDEBUG=0
-            - BULKSIZE=500
-            - NO_LOOP=0
-
-    prosoul:
-        build: ./quality-model
-        ports:
-         - "8000:8000"
-        depends_on:
-         - kibiter
-         - elasticsearch
-        environment:
-         - ALLOWED_HOSTS=prosoul localhost 127.0.0.1
-         - ES_URL=https://admin:admin@elasticsearch:9200
-         - KIBITER_URL=https://kibiter:80
-         - KIBITER_HOST=http://localhost:80
-         - DASHDEBUG=0
-         - SYNC_ES_SCAVA=0
-         - QM_URL=https://raw.githubusercontent.com/Bitergia/prosoul/master/django-prosoul/prosoul/data/qmodel_crossminer.json
-         - QM_NAME=crossminer
