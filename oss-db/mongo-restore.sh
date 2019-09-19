@@ -29,7 +29,7 @@ done
 
 # Restore from dump
 shopt -s nullglob
-DUMPS=(*2018.11.16*.gz)
+DUMPS=(*201*.gz)
 NB_DUMPS=${#DUMPS[@]}
 
 DCOUNT=0
