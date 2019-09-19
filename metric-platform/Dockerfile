@@ -19,6 +19,8 @@
 FROM openjdk:8-jdk
 LABEL description="Image with the OSSMETER platform"
 
+ARG BRANCH=dev
+
 # install python 3 and ruby and puppet-lint and maven
 RUN apt-get update \
 &&  apt-get install -y python3 \
@@ -38,9 +40,10 @@ RUN  unzip master.zip \
 WORKDIR /ossmeter
 
 # Get the binaries and uncompress them in the container
-RUN wget http://ci5.castalia.camp:8080/job/scava-metric-platform/job/dev/lastSuccessfulBuild/artifact/metric-platform/releng/org.eclipse.scava.product/target/products/scava-product-linux.gtk.x86_64.zip \
+RUN wget http://ci5.castalia.camp:8080/job/scava-metric-platform/job/$BRANCH/lastSuccessfulBuild/artifact/metric-platform/releng/org.eclipse.scava.product/target/products/scava-product-linux.gtk.x86_64.zip \
 && unzip scava-product-linux.gtk.x86_64.zip \
-&& rm scava-product-linux.gtk.x86_64.zip
+&& rm scava-product-linux.gtk.x86_64.zip \
+&& echo "$BRANCH-$(curl -s http://ci5.castalia.camp:8080/job/scava-metric-platform/job/$BRANCH/lastSuccessfulBuild/consoleText | sed '3q;d' | awk '{ print $NF}')" > /version
 
 COPY prop.properties /ossmeter/prop.properties
 COPY wait-for-it.sh /ossmeter/wait-for-it.sh

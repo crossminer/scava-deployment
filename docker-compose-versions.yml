@@ -1,0 +1,51 @@
+######################################################################
+# Copyright (c) 2017-2018 UNPARALLEL innovation Lda, and Castalia Solution
+#
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+######################################################################
+
+#
+# Note:
+#
+# Docker Composer File to launch the OSSMETER-Platform as a distributed application
+#
+# The application is composed of 4 services:
+#   - oss-web: corresponds to the service of OSSMETER platform website
+#   - oss-app: service running api server and the orchestrator of OSSMETER slave instances
+#   - oss-slave: service corresponding to the OSSMETER slaves responsible for the analysis
+#    of software projects
+#   - oss-db: service responsible for the the storage of OSSMETER data
+#   - kb-service: service providing the Knowledge Base functionalities
+#   - kb-db: database of the Knowledge Base
+#
+
+version: "3"
+services:
+    admin-webapp:
+        build: ./web-admin
+        entrypoint: ["cat", "/version"]
+
+    oss-app: #Deploys a container with the OSSMETER platform configured to act as master
+             # and to run the api server used by oss-web service
+        build: ./metric-platform
+        entrypoint: ["cat", "/version"]
+
+    kb-service: #deploys the Knowledge Base services
+        build: ./KB  # directory to the corresponding Dockerfile
+        entrypoint: ["cat", "/version"]
+
+    api-server: # API gateway to route the access of REST APIs
+        build: ./api-gw
+        entrypoint: ["cat", "/version"]
+
+    auth-server: # Server responsible for the authentication of the
+        build: ./auth
+        entrypoint: ["cat", "/version"]
+
+    dashb-importer:
+        build: ./dashboard
+        entrypoint: ["cat", "/version"]

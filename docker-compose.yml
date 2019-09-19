@@ -26,7 +26,10 @@
 version: "3"
 services:
     admin-webapp:
-        build: ./web-admin
+        build:
+          context: ./web-admin
+          args:
+            - BRANCH
         environment:
             - API_GATEWAY_VAR=http://localhost:8086
         depends_on:
@@ -40,7 +43,10 @@ services:
 
     oss-app: #Deploys a container with the OSSMETER platform configured to act as master
              # and to run the api server used by oss-web service
-        build: ./metric-platform
+        build:
+          context: ./metric-platform
+          args:
+            - BRANCH
         entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-master", "-apiServer", "-worker", "w1", "-config", "prop.properties"]
         depends_on:
             - oss-db
@@ -78,7 +84,10 @@ services:
             - "27017:27017"
 
     kb-service: #deploys the Knowledge Base services
-        build: ./KB  # directory to the corresponding Dockerfile
+        build: # directory to the corresponding Dockerfile
+          context: ./KB
+          args:
+            - BRANCH
         depends_on:
             - kb-db #only requests for kb-db service to be launched before this service. DB may still not be ready when this service starts
             - oss-app
@@ -104,8 +113,10 @@ services:
 
 
     api-server: # API gateway to route the access of REST APIs
-        build: ./api-gw
-
+        build:
+          context: ./api-gw
+          args:
+            - BRANCH
         depends_on:
             - oss-app
             - auth-server
@@ -120,7 +131,10 @@ services:
 
 
     auth-server: # Server responsible for the authentication of the
-        build: ./auth
+        build:
+          context: ./auth
+          args:
+            - BRANCH
         entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "java", "-jar", "scava-auth-service-1.0.0.jar" ]
       #  entrypoint: ["./wtfc.sh", "oss-app:8182", "--timeout=0", "java", "-jar", "scava-auth-service-1.0.0.jar" ]
         depends_on:
@@ -162,7 +176,10 @@ services:
       - ELASTICSEARCH_URL=https://elasticsearch:9200
 
     dashb-importer:
-        build: ./dashboard
+        build:
+          context: ./dashboard
+          args:
+            - BRANCH
         entrypoint: ["./wait-for-it.sh", "oss-app:8182", "-t", "0", "--",
                      "./wait-for-it.sh", "elasticsearch:9200", "-t", "0", "--",
                      "./wait-for-it.sh", "kibiter:5601", "-t", "0", "--",
