@@ -19,6 +19,7 @@ RUN apt-get update \
 &&  apt-get install -y git \
 subversion \
 build-essential \
+curl \
 && rm -r /var/lib/apt/lists/*
 
 # Install GrimoireLab
