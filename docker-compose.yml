@@ -60,6 +60,9 @@ services:
         ports:
           - "8182:8182"
           - "8192:8192"
+        volumes: #creates volume on container
+          - ~/oss-git:/ossmeter/git # git repositories
+          - ~/oss-root:/root/ # Scava stores here a lot of information (models, maven repos, etc.)
     ### Uncoment the service below to add more workers
     # oss-slave: # Service containing OSSMETER slaves instances
     #     image: scava-deployment_oss-app
