@@ -28,7 +28,7 @@ services:
     admin-webapp:
         build: ./web-admin
         environment:
-            - API_GATEWAY_VAR=http://localhost:8086
+            - API_GATEWAY_VAR=http://145.239.131.54:8086
         depends_on:
             - api-server
         networks:
@@ -55,14 +55,14 @@ services:
           - "8182:8182"
           - "8192:8192"
     ### Uncoment the service below to add more workers
-    # oss-slave: # Service containing OSSMETER slaves instances
-    #     image: scava-deployment_oss-app
-    #     entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-worker", "w2", "-config", "prop.properties"]
-    #     depends_on:
-    #       - oss-db
-    #       - oss-app
-    #     networks:
-    #       - default
+    oss-slave: # Service containing OSSMETER slaves instances
+        image: scava-deployment_oss-app
+        entrypoint: ["./wait-for-it.sh", "oss-db:27017", "-t", "0", "--", "./eclipse", "-worker", "w2", "-config", "prop.properties"]
+        depends_on:
+          - oss-db
+          - oss-app
+        networks:
+          - default
 
     oss-db: # data storage service
         build: ./oss-db #restores a dump of of the Knowledge Base
@@ -137,7 +137,7 @@ services:
 
     elasticsearch:
         image: acsdocker/elasticsearch:6.3.1-secured
-        command: /elasticsearch/bin/elasticsearch -E network.bind_host=0.0.0.0 -Ehttp.max_content_length=500mb
+        command: /elasticsearch/bin/elasticsearch -E network.bind_host=0.0.0.0 -Ehttp.max_content_length=1gb
         networks:
             - default
         expose:
@@ -145,7 +145,7 @@ services:
         ports:
           - "9200:9200"
         environment:
-          - ES_JAVA_OPTS=-Xms2g -Xmx2g
+          - ES_JAVA_OPTS=-Xms5g -Xmx5g
           - ES_TMPDIR=/tmp
 
     kibiter:
@@ -157,7 +157,7 @@ services:
       expose:
           - 5601
       ports:
-       - "80:5601"
+       - "5601:5601"
       environment:
       - ELASTICSEARCH_URL=https://elasticsearch:9200
 
@@ -175,7 +175,7 @@ services:
             - default
         environment:
             - DASHDEBUG=0
-            - BULKSIZE=500
+            - BULKSIZE=200
             - NO_LOOP=0
 
     prosoul:
@@ -186,7 +186,7 @@ services:
          - kibiter
          - elasticsearch
         environment:
-         - ALLOWED_HOSTS=prosoul localhost 127.0.0.1
+         - ALLOWED_HOSTS=prosoul localhost 127.0.0.1 ci4.castalia.camp
          - ES_URL=https://admin:admin@elasticsearch:9200
          - KIBITER_URL=https://kibiter:80
          - KIBITER_HOST=http://localhost:80
