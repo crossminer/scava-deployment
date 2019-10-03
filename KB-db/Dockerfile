@@ -11,7 +11,7 @@
 FROM mongo:3.4
 
 # Get download dump archive
-ADD http://ci3.castalia.camp/dl/CROSSMINER.201907313.gz /home 
+ADD http://ci4.castalia.camp/dl/CROSSMINER.20191003.gz /home 
 RUN mv /home/CROSSMINER.201907313.gz /home/CROSSMINER.gz
 WORKDIR home
 
