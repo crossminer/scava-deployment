@@ -74,8 +74,8 @@ services:
     #    volumes: #creates volume on container
     #        - ~/oss-data:/data/db
  # Uncomment the port map below to give access to external mongo database visualizers
-        ports:
-            - "27017:27017"
+ #       ports:
+ #           - "27017:27017"
 
     kb-service: #deploys the Knowledge Base services
         build: ./KB  # directory to the corresponding Dockerfile
@@ -99,8 +99,8 @@ services:
 #        volumes: #creates volume on container
 #            - ~/kb-data:/data/kb-db
  # Uncomment the port map below to give access to external mongo database visualizers
-        ports:
-            - "27018:27017"
+ #       ports:
+ #           - "27018:27017"
 
 
     api-server: # API gateway to route the access of REST APIs
