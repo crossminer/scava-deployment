@@ -32,9 +32,10 @@ RUN apt-get update \
 
 
 # Download and  deploy Puppeteer
-ADD https://github.com/blueoly/CrossPuppeteer/archive/master.zip /
-RUN  unzip master.zip \
-&&  rm master.zip
+# ADD https://github.com/blueoly/CrossPuppeteer/archive/master.zip /
+RUN svn export https://github.com/crossminer/scava/branches/$BRANCH/crossPuppeteer
+# RUN  unzip master.zip \
+# &&  rm master.zip
 
 
 WORKDIR /ossmeter
