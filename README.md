@@ -1,3 +1,5 @@
+#IMPORTANT ! This repository has been archived and moved to https://github.com/eclipse-researchlabs/scava-deployment#
+
 # scava-deployment
 This repository contains the Docker configuration files for the deployment of Scava platform
 
